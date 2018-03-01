@@ -146,8 +146,8 @@ app.get('/getSeuil', function (req, res) {
 // Port Number
 const port = 4300;
 
-//address
-const address = '172.18.10.165'; 
+// server address
+const address = '172.19.6.189'; 
 
 app.listen(port, address, () => {
   console.log('Server started on address '+address+' and on port '+port);
