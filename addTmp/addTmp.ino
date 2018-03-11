@@ -42,7 +42,7 @@ void loop()
 {
   
    int val = analogRead(pinTemp);
-    float resistance = (float)(1023-val)*10000/val;
+   float resistance = (float)(1023-val)*10000/val;
 
     // Calculate the temperature based on the resistance value.
     int temperature = 1/(log(resistance/10000)/B+1/298.15)-273.15;

@@ -13,6 +13,7 @@ var con = mysql.createConnection({
     database: "iotdb"
   })
 
+
 con.connect(function(err) {
     if (err) throw err
     console.log("Connected!")
@@ -23,7 +24,7 @@ app.get('/', function (req, res) {
 })
 
 /*** ADD ***/
-app.get('/add', function (req, res) { 
+app.get('/addTemp', function (req, res) { 
 
   var query = con.query("INSERT INTO temperatures  (value) VALUES ("+req.query.value+")", function(err, rows)
         {
@@ -42,7 +43,7 @@ app.get('/getAll', function (req, res) {
             if(err)
                 console.log("Error Selecting : %s ",err );
             else
-            res.json({Result:rows})
+            res.json({rows})
          });
 })
 
@@ -65,7 +66,7 @@ app.get('/getByValue', function (req, res) {
               if(err)
                   console.log("Error Selecting : %s ",err );
               else
-                  res.json(result[0].value)   
+                  res.json({Result:rows})
            });
   })
 
@@ -92,62 +93,12 @@ app.get('/update', function (req, res) {
   });
 })
 
-/*** SWITCH STATE ***/
-app.get('/updateSensor', function (req, res) { 
-    var query = con.query("UPDATE states set status="+req.query.status+" WHERE sensor='"+ req.query.sensor+"'", function(err, rows)
-    {
-      if (err)  
-          console.log("Error Updating : %s ",err );
-      else
-         res.json({Result:"updated"})
-    });
-  })
 
-/*** ADD MESSAGE ***/
-app.get('/sendMessage', function (req, res) { 
-    var query = con.query("UPDATE others set message='"+req.query.message+"' WHERE etat="+ req.query.etat, function(err, rows)
-    {
-      if (err)  
-          console.log("Error Updating : %s ",err );
-      else
-         res.json({Result:"updated"})
-    });
-  })
-/*** ADD VAL ***/
-app.get('/updateTemp', function (req, res) { 
-    var query = con.query("UPDATE others set val='"+req.query.currentTmp+"' WHERE etat="+ req.query.etat, function(err, rows)
-    {
-      if (err)  
-          console.log("Error Updating : %s ",err );
-      else
-         res.json({Result:"updated"})
-    });
-  })
-/*** ADD SEUIL ***/
-app.get('/updateSeuil', function (req, res) { 
-    var query = con.query("UPDATE seuil set value="+req.query.seuil+" WHERE ref=1", function(err, rows)
-    {
-      if (err)  
-          console.log("Error Updating : %s ",err );
-      else
-         res.json({Result:"updated"})
-    });
-  })
-/*** GET SEUIL  */
-app.get('/getSeuil', function (req, res) { 
-    var query = con.query('SELECT * FROM seuil WHERE ref=1',function(err,result,rows)
-          {
-              if(err)
-                  console.log("Error Selecting : %s ",err );
-              else
-                 res.json(result[0].value) 
-           });
-  })
 // Port Number
 const port = 4300;
 
 // server address
-const address = '172.19.6.189'; 
+const address = '172.16.220.137'; 
 
 app.listen(port, address, () => {
   console.log('Server started on address '+address+' and on port '+port);
